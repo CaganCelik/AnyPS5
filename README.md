@@ -1,7 +1,6 @@
 # About
 
-Tool for automatic executables porting to Linux and Windows.
-
+Tool for the automatic porting of executables to Linux and Windows.
 The relinker-only build runs on macOS, including Apple silicon.
 
 [**Web converter**](https://boykopovar.github.io/AnyPS5/) - files stay on your device.
