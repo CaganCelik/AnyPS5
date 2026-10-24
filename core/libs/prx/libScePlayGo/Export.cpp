@@ -12,7 +12,6 @@
 #include <stdexcept>
 #include <string>
 
-// The game is fully installed on the host, so every chunk is local and nothing is pending.
 static constexpr int SCE_PLAYGO_ERROR_BAD_POINTER = static_cast<int>(0x80B2000A);
 static constexpr int SCE_PLAYGO_ERROR_BAD_HANDLE = static_cast<int>(0x80B20009);
 static constexpr int PLAYGO_HANDLE = 1;
@@ -211,9 +210,16 @@ int APS5_VABI scePlayGoGetSupportedOptionalChunk(int handle, std::uint32_t type,
 
 int APS5_VABI scePlayGoGetToDoList(int handle, PlayGoToDo* out_todo_list, uint32_t number_of_entries, uint32_t* out_entries) {
     if (handle != PLAYGO_HANDLE) return SCE_PLAYGO_ERROR_BAD_HANDLE;
-    (void)out_todo_list;
-    (void)number_of_entries;
     if (!out_entries) return SCE_PLAYGO_ERROR_BAD_POINTER;
+
+    if (!out_todo_list) {
+        if (number_of_entries > 0) return SCE_PLAYGO_ERROR_BAD_POINTER;
+        *out_entries = 0;
+        return 0;
+    }
+    
+    if (number_of_entries == 0) return SCE_PLAYGO_ERROR_BAD_SIZE;
+    
     *out_entries = 0;
     return 0;
 }
